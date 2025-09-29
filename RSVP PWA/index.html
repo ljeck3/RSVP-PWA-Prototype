@@ -5,21 +5,28 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="21409A">
   <title>PWA</title>
 </head>
-<body>
-  <h1 class="center-align">RSVP</h1>
-  <div class="center-align">
+
+<body class="grey lighten-3">
+  <h1 class="center-align">Party!</h1>
+  <div class="container center-align">
+    <img src="images/party.jpg" alt="party" width="50%" height="50%">
+    <p>Join us for a celebration! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatum debitis eos excepturi porro! Iusto nostrum assumenda voluptas eius beatae reprehenderit nisi accusantium! Facere odit dolor, expedita veniam voluptatibus voluptatum? </p>
+  </div>
+
+  <hr class="container">
+
+  <div class="container center-align">
+    <h3>RSVP</h3>
     <form>
       <input type="text" id="nameInput" placeholder="Your name" required>
       <input type="text" id="guestInput" placeholder="Your guest">
-      <button type="button" onclick="rsvpYes()">RSVP Yes</button>
-      <button type="button" onclick="rsvpNo()">RSVP No</button>
+      <button class="waves-effect waves-light btn"type="button" onclick="rsvpYes()">RSVP Yes</button>
+      <button class="waves-effect waves-light btn" type="button" onclick="rsvpNo()">RSVP No</button>
     </form>
   </div>
 
