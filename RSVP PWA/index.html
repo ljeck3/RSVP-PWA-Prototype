@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="21409A">
-    <title>PWA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="21409A">
+  <title>PWA</title>
 </head>
 <body>
-    <h1>RSVP</h1>
-    <div class="rsvp-contatiner">
-      <textarea id="nameInput" placeholder="Your name" ></textarea>
-      <textarea id="guestInput" placeholder="Your plus one (if applicable)" ></textarea>
-      <button onclick="rsvpYes()">RSVP Yes</button>
-      <button onclick="rsvpNo()">RSVP No</button>
-    </div>
+  <h1>RSVP</h1>
+  <div class="form-container">
+    <form>
+      <input type="text" id="nameInput" placeholder="Your name" required>
+      <input type="text" id="guestInput" placeholder="Your guest">
+      <button type="button" onclick="rsvpYes()">RSVP Yes</button>
+      <button type="button" onclick="rsvpNo()">RSVP No</button>
+    </form>
+  </div>
 
-     <script src="main.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
