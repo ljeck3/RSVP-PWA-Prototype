@@ -12,25 +12,23 @@
 </head>
 
 <body class="grey lighten-3">
-  <h1 class="center-align">Party!</h1>
-  <div class="container center-align">
-    <img src="images/party.jpg" alt="party" width="50%" height="50%">
-    <p>Join us for a celebration! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatum debitis eos excepturi porro! Iusto nostrum assumenda voluptas eius beatae reprehenderit nisi accusantium! Facere odit dolor, expedita veniam voluptatibus voluptatum? </p>
-  </div>
+  <h1 class="center-align">RSVP To Events</h1>
 
-  <hr class="container">
+<nav>
+    <div class="nav-wrapper">
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="party.html">Party</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  <div class="container center-align">
-    <h3>RSVP</h3>
-    <form>
-      <input type="text" id="nameInput" placeholder="Your name" required>
-      <input type="text" id="guestInput" placeholder="Your guest">
-      <button class="waves-effect waves-light btn"type="button" onclick="rsvpYes()">RSVP Yes</button>
-      <button class="waves-effect waves-light btn" type="button" onclick="rsvpNo()">RSVP No</button>
-    </form>
-  </div>
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="Party.html">Party</a></li>
+  </ul>
 
-  <script src="main.js"></script>
+
   <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
