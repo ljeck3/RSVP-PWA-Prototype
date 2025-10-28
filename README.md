@@ -3,7 +3,7 @@
 
 ## Description
 
-This web app is intended to behave like a PWA, meaning it can cache and be installed. The function of the app is to RSVP to events that are listed. The user's response is recorded in a Google Sheet using a Google App Script. RSVP functionality requires a network connection, but the details of an event can still be viewed using cached storage. 
+This web app is intended to behave like a PWA, meaning it can cache and be installed. The function of the app is to RSVP to events that are listed. The user's response is recorded in a Google Sheet using a Google App Script. RSVP functionality requires a network connection, but the details of an event can still be viewed using cached storage. This is because the service worker caches the main files that are required to view the page. The manifest.json file gives the browser metadata to help ensure correct execution and installability. 
 
 ## Getting Started
 
