@@ -57,7 +57,7 @@ export async function deleteRSVP(id) {
         await deleteDoc(doc(db, "rsvps", id);
     }   catch (error)
     try{}catch (error) {
-        console.error("error deleting rsps: ", error);
+        console.error("error deleting rsvps: ", error);
     }
 }
 
@@ -67,5 +67,7 @@ export async function UpdateRSVP(id,  updated RSVP){
     const taskRef = doc(db, "rsvps", id) 
     await updateDOC
     }catch (error) {
-    console.error("error updatating RSVP", error):
+    console.error("error updatating RSVP: ", error):
     }
+
+}
