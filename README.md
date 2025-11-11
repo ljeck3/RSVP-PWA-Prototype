@@ -15,6 +15,11 @@ You can view this prototype by following this link, which is the repositotry hos
 2. Fill out the form to "RSVP"
 3. Watch you response add to the Google Sheet: https://docs.google.com/spreadsheets/d/1zu1BohxlLZPIIplup4HPiJUZuR-NY_ZQpa-YWT6BhYk/edit?gid=0#gid=0
 
+
+## About IndexedDB and Firebase
+
+I am struggling to understand right now, so this is not currently working. This branch contains at least the start of attempting to set this up. 
+
 ## Authors
 
 Levi Eck
