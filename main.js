@@ -1,3 +1,12 @@
+//importing from firebaseDB.js
+import {
+  addRSVP,
+  getRSVP,
+  deleteRSVP
+} from "./js/firebaseDB.js"
+
+
+
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").then(registration => {
         console.log("SW Registered!");
@@ -12,6 +21,11 @@ function rsvpYes() {
     const nameInput = document.getElementById("nameInput").value;
     const guestInput = document.getElementById("guestInput").value;
 
+    const rsvpData = {
+      nameInput: nameInput,
+      guestInput: guestInput,
+    }
+    const savedRSVP = addRSVP(rsvpData)
     fetch("https://script.google.com/macros/s/AKfycbxOheWBesYVx6k_SKqZT0kCLMw7pDkfLscQtc2BSm8svUZnLkz87viyiBgOIkLFji1H/exec", {
     method: "POST",
     body: JSON.stringify({ 
@@ -62,45 +76,45 @@ async function createDB(params) {
 }
 
 // Add RSVP
-async function addRSVP(RSVP) {
-    const db = await createDB();
+// async function addRSVP(RSVP) {
+//     const db = await createDB();
     
-    // start transaction
-    const tx = db.transaction("RSVPs", "readwrite");
-    const store = tx.objectStore("RSVPs");
+//     // start transaction
+//     const tx = db.transaction("RSVPs", "readwrite");
+//     const store = tx.objectStore("RSVPs");
 
-    //Add RSVP to store
-    await store.add(rsvp);
+//     //Add RSVP to store
+//     await store.add(rsvp);
 
-    //Complete transation
-    await tx.done;
+//     //Complete transation
+//     await tx.done;
 
-    //update storage usage
-    checkStorageUsage(); 
-}
+//     //update storage usage
+//     checkStorageUsage(); 
+// }
 
 //Delete RSVP
-async function deleteRSVP(id) {
-    const db = await createDB();
+// async function deleteRSVP(id) {
+//     const db = await createDB();
 
-    //start transation
-    const tx = db.transaction("tasks", "readwrite");
-    const store = tx.objectStore("RSVPs");
+//     //start transation
+//     const tx = db.transaction("tasks", "readwrite");
+//     const store = tx.objectStore("RSVPs");
 
-    //delete task by id
-    await store.delete(id);
+//     //delete task by id
+//     await store.delete(id);
 
-    await tx.done;
+//     await tx.done;
     
-    //Remove task from UI
-    const rsvpCard = document.querySelector(`[data-id="${id}"]`);
-    if(rsvpCard){}{
-        rsvpCard.remove()
-        }
+//     //Remove task from UI
+//     const rsvpCard = document.querySelector(`[data-id="${id}"]`);
+//     if(rsvpCard){}{
+//         rsvpCard.remove()
+//         }
 
-    //update storage usage
-    checkStorageUsage(); 
-}
+//     //update storage usage
+//     checkStorageUsage(); 
+// }
 
 //Load RSVPs with transaction
 async function loadRSVPs() {

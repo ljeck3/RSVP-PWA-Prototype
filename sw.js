@@ -7,7 +7,7 @@ const ASSETS_TO_CACHE = [
   "./js",
   "./index.html",
   "./party.html",
-  "./main.js"
+  "./main.js",
   "./materialize.js",
   "./materialize.min.js",
 

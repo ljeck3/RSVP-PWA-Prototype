@@ -1,10 +1,9 @@
 
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-  import (
-    collection,
-    doc
-  )
+  import { collection, addDoc,
+    doc} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js"
+   
   import { getFirestore }  from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js"
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,24 +22,23 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore (app);
 
-  //Add a Task
-export async function addRSVP(rsvp) {
-    try {
-        const docRef = await AudioScheduledSourceNode(collection(db, rsvps)) rsvp;
-        return {id: docRef.id ...rsvp}
-    }   catch (error) {
-        console.error("error adding rsvp:", error)'';
-    }
-}
-
 const rsvp = {
     Name: "example RSVP",
     Guest: "example guest,"
 };
 
+  //Add a rsvp
+export async function addRSVP(rsvp) {
+    try {
+        const docRef = await addDoc (collection(db, "rsvps"), rsvp);
+        return {id: docRef.id, ...rsvp}
+    }   catch (error) {
+        console.error("error adding rsvp:", error);
+    }
+}
 //Get RSVPS
-export async function getRSVP(parms) {
-    const tasks = [];
+export async function getRSVP() {
+    const rsvps = [];
     try {const querySnapshot = await getDocs(collection(db, "rsvps"))
     querySnapshot.forEach((doc)=>{
         rsvps.push({id: doc.id, ...doc.data()})
@@ -54,20 +52,20 @@ export async function getRSVP(parms) {
 //Delete rsvps
 export async function deleteRSVP(id) {
     try {
-        await deleteDoc(doc(db, "rsvps", id);
+        await deleteDoc(doc(db, "rsvps", id));
     }   catch (error)
-    try{}catch (error) {
+     {
         console.error("error deleting rsvps: ", error);
     }
 }
 
 //Update
-export async function UpdateRSVP(id,  updated RSVP){
+export async function UpdateRSVP(id, updateData){
     try {
-    const taskRef = doc(db, "rsvps", id) 
-    await updateDOC
+    const rsvpRef = doc(db, "rsvps", id) 
+    await updateDOC(rsvpRef, updateData)
     }catch (error) {
-    console.error("error updatating RSVP: ", error):
+    console.error("error updatating RSVP: ", error);
     }
 
 }
