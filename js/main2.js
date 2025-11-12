@@ -1,3 +1,4 @@
+//takes functions from firebaseDB.js to be used here. 
 import {
   addRSVP,
   getRSVP,
@@ -31,15 +32,36 @@ function rsvpYes() {
 
     console.log(rsvpData)
     const savedRSVP = addRSVP(rsvpData)
-    fetch("https://script.google.com/macros/s/AKfycbxOheWBesYVx6k_SKqZT0kCLMw7pDkfLscQtc2BSm8svUZnLkz87viyiBgOIkLFji1H/exec", {
-    method: "POST",
-    body: JSON.stringify({ 
-        name: nameInput, 
-        guest: guestInput,
-        yes: "X",
-        no: ""
-        })
-    })
+    getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
 }
+/*
+// Load Tasks from Firebase and Display in UI
+async function loadTasks() {
+  const tasks = await getTasksFromFirebase();
+  const taskContainer = document.querySelector(".tasks");
+  taskContainer.innerHTML = ""; // Clear current tasks
+  tasks.forEach((task) => {
+    displayTask(task);
+  });
+}
+*/
+
+
+// Load RSVPs from Firebase and Display in UI
+async function getRSVPData() {
+  const rsvps = await getRSVP();
+  console.log(rsvps); //test to see if getting data
+
+  const rsvpList = document.getElementById("rsvp-list");
+  rsvpList.innerHTML = ""; // Clears previous items
+
+  rsvps.forEach(rsvp => {
+    const li = document.createElement("li");
+    li.textContent = `Name: ${rsvp.nameInput} | Guest: ${rsvp.guestInput}`;
+    rsvpList.appendChild(li);
+  });
+}
+
+getRSVPData() //Loads the initial RSVPs before changes are made
 
 window.rsvpYes = rsvpYes
