@@ -5,6 +5,8 @@ import {
   deleteRSVP
 } from "./firebaseDB.js"
 
+getRSVPData() //Loads the initial RSVPs before changes are made
+
 //For Materialize CSS nav bar
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.sidenav');
@@ -34,18 +36,6 @@ function rsvpYes() {
     const savedRSVP = addRSVP(rsvpData)
     getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
 }
-/*
-// Load Tasks from Firebase and Display in UI
-async function loadTasks() {
-  const tasks = await getTasksFromFirebase();
-  const taskContainer = document.querySelector(".tasks");
-  taskContainer.innerHTML = ""; // Clear current tasks
-  tasks.forEach((task) => {
-    displayTask(task);
-  });
-}
-*/
-
 
 // Load RSVPs from Firebase and Display in UI
 async function getRSVPData() {
@@ -57,11 +47,21 @@ async function getRSVPData() {
 
   rsvps.forEach(rsvp => {
     const li = document.createElement("li");
-    li.textContent = `Name: ${rsvp.nameInput} | Guest: ${rsvp.guestInput}`;
-    rsvpList.appendChild(li);
+    li.textContent = `${rsvp.nameInput} & ${rsvp.guestInput}`;
+    
+    //delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "delete";
+    
+    deleteButton.addEventListener("click", async () => {
+      await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
+      li.remove();
+      deleteButton.remove();
+    })
+    li.appendChild(deleteButton); //Puts button inside li
+    rsvpList.appendChild(li); //button now inside li, so as a whole, li goes into ul.
+    
   });
 }
 
-getRSVPData() //Loads the initial RSVPs before changes are made
-
-window.rsvpYes = rsvpYes
+window.rsvpYes = rsvpYes //Makes this function global so that it can run in html inline.
