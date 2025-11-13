@@ -60,12 +60,11 @@ export async function deleteRSVP(id) {
 }
 
 //Update
-export async function UpdateRSVP(id, updateData){
+export async function updateRSVP(id, updateData){
     try {
     const rsvpRef = doc(db, "rsvps", id) 
-    await updateDOC(rsvpRef, updateData)
+    await updateDoc(rsvpRef, updateData)
     }catch (error) {
     console.error("error updatating RSVP: ", error);
     }
-
 }
