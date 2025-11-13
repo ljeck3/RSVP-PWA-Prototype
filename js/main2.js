@@ -38,6 +38,7 @@ async function updateInput(id) {
   console.log(nameUpdate)
   console.log(guestUpdate)
   await updateRSVP(id, updateData); 
+  getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
 }
 
 
