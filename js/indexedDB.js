@@ -1,11 +1,13 @@
-//importing from firebaseDB.js
+import { openDB } from "https://unpkg.com/idb?module";
+
+
+//takes functions from firebaseDB.js to be used here. 
 import {
   addRSVP,
   getRSVP,
-  deleteRSVP
-} from "./js/firebaseDB.js"
-
-
+  deleteRSVP,
+  updateRSVP
+} from "./firebaseDB.js"
 
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").then(registration => {
@@ -17,54 +19,8 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-function rsvpYes() {
-    const nameInput = document.getElementById("nameInput").value;
-    const guestInput = document.getElementById("guestInput").value;
-
-    const rsvpData = {
-      nameInput: nameInput,
-      guestInput: guestInput,
-    }
-    const savedRSVP = addRSVP(rsvpData)
-    //No longer using this. Moving functionality to Firebase.
-    fetch("", {
-    method: "POST",
-    body: JSON.stringify({ 
-        name: nameInput, 
-        guest: guestInput,
-        yes: "X",
-        no: ""
-        })
-    })
-}
-
-function rsvpNo() {
-    const nameInput = document.getElementById("nameInput").value;
-    const guestInput = document.getElementById("guestInput").value;
-
-    //No longer using this. Moving functionality to Firebase.
-    fetch("", {
-    method: "POST",
-    body: JSON.stringify({ 
-        name: nameInput, 
-        guest: guestInput,
-        yes: "",
-        no: "X"
-        })
-    })
-}
-
-
-//For Materialize CSS nav bar
-document.addEventListener('DOMContentLoaded', function() {
-  var elems = document.querySelectorAll('.sidenav');
-  var instances = M.Sidenav.init(elems);
-});
-
-
-
 // create indexDB databse
-async function createDB(params) {
+async function createDB() {
     const db = await openDB("rsvp-app", 1, {
         upgrade(db) {
             const store = db.createObjectStore("rsvps", {
@@ -72,79 +28,46 @@ async function createDB(params) {
                 autoIncrement: true,
             });
             store.createIndex("status", "status");
+            store.createIndex("synced", "synced");
         },
     });
     return db;
 }
 
-// Add RSVP
-// async function addRSVP(RSVP) {
-//     const db = await createDB();
-    
-//     // start transaction
-//     const tx = db.transaction("RSVPs", "readwrite");
-//     const store = tx.objectStore("RSVPs");
+//Add RSVP
+export async function addRSVPoff(rsvp) {
+    const db = await createDB();
 
-//     //Add RSVP to store
-//     await store.add(rsvp);
+    //start transation
+    const tx = db.transaction("rsvps", "readwrite");
+    const store = tx.objectStore("rsvps");
 
-//     //Complete transation
-//     await tx.done;
+    //add rsvp to store
+    await store.add(rsvp);
 
-//     //update storage usage
-//     checkStorageUsage(); 
-// }
+    //complete transaction
+    await tx.done;
 
-//Delete RSVP
-// async function deleteRSVP(id) {
-//     const db = await createDB();
+    //update storage usage
+    checkStorageUsage();
+  }
 
-//     //start transation
-//     const tx = db.transaction("tasks", "readwrite");
-//     const store = tx.objectStore("RSVPs");
+//Delete RSVP (DOESNT WORK)
+export async function deleteRSVPoff(id) {
+    const db = await createDB();
 
-//     //delete task by id
-//     await store.delete(id);
+    //start transaction
+    const tx = db.transaction("rsvps", "readwrite");
+    const store = tx.objectStore("rsvps");
 
-//     await tx.done;
-    
-//     //Remove task from UI
-//     const rsvpCard = document.querySelector(`[data-id="${id}"]`);
-//     if(rsvpCard){}{
-//         rsvpCard.remove()
-//         }
+    //delete rsvp by id
+    await store.delete(id);
 
-//     //update storage usage
-//     checkStorageUsage(); 
-// }
-
-//Load RSVPs with transaction
-async function loadRSVPs() {
-    const db = await createDB()
-
-//start transation
-    const tx = db.transaction("tasks", "readonly");
-    const store = tx.objectStore("RSVPs");
-
-//Get all RSVPs
-const rsvps = await store.getAll();
-
-await tx.done;
-
-const rsvpContainer = document.querySelector(".tasks");
-rsvpContainer.innerHTML = "";
-rsvp.forEach((task) => {
-    displayRSVP(rsvp);
-    });
+    await tx.done;
 }
 
-//Display rsvp using the existing HTMl structure/Attach delete event listener/Add RSVP Button listener 
 
-
-//Did not understand how to do these steps in my case
-
-
-// Function to check storage usage
+//delete, display, load synctasks
 
 
 async function checkStorageUsage() {

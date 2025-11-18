@@ -6,6 +6,12 @@ import {
   updateRSVP
 } from "./firebaseDB.js"
 
+import {
+  addRSVPoff,
+  deleteRSVPoff
+}
+  from "./indexedDB.js";
+
 getRSVPData() //Loads the initial RSVPs before changes are made
 
 //For Materialize CSS nav bar
@@ -24,8 +30,6 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-//update RSVP. This is ran by the update button created in getRSVPData()
-//Something is wrong. I can input new text, but it won't update Firebase.
 async function updateInput(id) {
   let nameUpdate = prompt("Edit Name");
   let guestUpdate = prompt("Edit Guest");
@@ -41,7 +45,6 @@ async function updateInput(id) {
   getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
 }
 
-
 function rsvpYes() {
     const nameInput = document.getElementById("nameInput").value;
     const guestInput = document.getElementById("guestInput").value;
@@ -52,7 +55,8 @@ function rsvpYes() {
     }
 
     console.log(rsvpData)
-    const savedRSVP = addRSVP(rsvpData)
+    const savedRSVP = addRSVP(rsvpData);
+    const savedRSPLocal =addRSVPoff(rsvpData);
     getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
 }
 
@@ -78,6 +82,7 @@ async function getRSVPData() {
     
     deleteButton.addEventListener("click", async () => {
       await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
+      await deleteRSVPoff(rsvp.id);//Runs function in indexedDB.js to delete from Indexeddb (dont think this is working right)
       li.remove();
       deleteButton.remove();
     })
