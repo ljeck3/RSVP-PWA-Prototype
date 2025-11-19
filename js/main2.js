@@ -45,7 +45,7 @@ async function updateInput(id) {
   getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
 }
 
-function rsvpYes() {
+async function rsvpYes() {
     const nameInput = document.getElementById("nameInput").value;
     const guestInput = document.getElementById("guestInput").value;
 
@@ -55,8 +55,19 @@ function rsvpYes() {
     }
 
     console.log(rsvpData)
-    const savedRSVP = addRSVP(rsvpData);
-    const savedRSPLocal =addRSVPoff(rsvpData);
+    const savedRSVP = await addRSVP(rsvpData);
+
+
+    // Stores Firebase ID for IndexedDB
+  const offlineRSVP = {
+    id: savedRSVP.id,
+    nameInput: nameInput,
+    guestInput: guestInput,
+  };
+
+  // Save to IndexedDB 
+  await addRSVPoff(offlineRSVP);
+
     getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
 }
 
@@ -82,7 +93,7 @@ async function getRSVPData() {
     
     deleteButton.addEventListener("click", async () => {
       await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
-      await deleteRSVPoff(rsvp.id);//Runs function in indexedDB.js to delete from Indexeddb (dont think this is working right)
+      await deleteRSVPoff(rsvp.id);//Runs function in indexedDB.js to delete from Indexeddb (fixed this 11/19).
       li.remove();
       deleteButton.remove();
     })

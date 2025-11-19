@@ -23,10 +23,8 @@ if ("serviceWorker" in navigator) {
 async function createDB() {
     const db = await openDB("rsvp-app", 1, {
         upgrade(db) {
-            const store = db.createObjectStore("rsvps", {
-                keyPath: "id",
-                autoIncrement: true,
-            });
+            db.createObjectStore("rsvps", { keyPath: "id" }); //Got rid of auto increment so that Firebase ID matches IndexedDB ID
+
             store.createIndex("status", "status");
             store.createIndex("synced", "synced");
         },
@@ -50,9 +48,10 @@ export async function addRSVPoff(rsvp) {
 
     //update storage usage
     checkStorageUsage();
+    console.log("rsvp added");
   }
 
-//Delete RSVP (DOESNT WORK)
+//Delete RSVP (fixed this 11/19)
 export async function deleteRSVPoff(id) {
     const db = await createDB();
 
@@ -64,10 +63,24 @@ export async function deleteRSVPoff(id) {
     await store.delete(id);
 
     await tx.done;
+    console.log("deleted rsvp");
 }
 
+//Load RSVPs withe transaction
+export async function getRSVPoff() {
+  const db = await createDB()
 
-//delete, display, load synctasks
+//start transaction
+  const tx = db.transaction("rsvps", "readonly");
+  const store = tx.objectStore("rsvps");
+
+//get all rsvps
+  const rsvps = await store.getAll();
+
+  await tx.done;
+}
+
+// display, load synctasks
 
 
 async function checkStorageUsage() {
