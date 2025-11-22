@@ -31,7 +31,7 @@ const rsvp = {
 export async function addRSVP(rsvp) {
     try {
         const docRef = await addDoc (collection(db, "rsvps"), rsvp);
-        console.log("rsvp added to Firebase")
+        console.log("RSVP added to Firebase")
         return {id: docRef.id, ...rsvp}
     }   catch (error) {
         console.error("error adding rsvp:", error);

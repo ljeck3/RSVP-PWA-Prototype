@@ -8,11 +8,17 @@ import {
 
 import {
   addRSVPoff,
+  getRSVPoff,
   deleteRSVPoff
 }
   from "./indexedDB.js";
 
-getRSVPData() //Loads the initial RSVPs before changes are made
+//Internet Check
+if (navigator.onLine) {
+  bigChungus(); // load Firebase
+} else {
+  johnPork();   // load IndexedDB
+}
 
 //For Materialize CSS nav bar
 document.addEventListener('DOMContentLoaded', function() {
@@ -49,7 +55,8 @@ async function updateInput(id) {
   console.log(nameUpdate)
   console.log(guestUpdate)
   await updateRSVP(id, updateData); 
-  getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
+  bigChungus() //Reloads the RSVP list from Firebase
+  johnPork() //reloads the RSVP list from IndexedDB
 }
 
 async function rsvpYes() {
@@ -75,11 +82,18 @@ async function rsvpYes() {
   // Save to IndexedDB 
   await addRSVPoff(offlineRSVP);
 
-    getRSVPData() //Reloads the RSVP list so page does not have to be refreshed
+    bigChungus() //Reloads the RSVP list so page does not have to be refreshed
+    johnPork()
+}
+
+async function johnPork() { //This runs a function in another file to handle loading from indexeddb
+  console.log("Internet connection unsuccessful. Calling John Pork.")
+  getRSVPoff();
 }
 
 // Load RSVPs from Firebase and Display in UI
-async function getRSVPData() {
+async function bigChungus() {
+  console.log("Internet connection successful. Loading Big Chungus for the PS4.")
   const rsvps = await getRSVP();
   console.log(rsvps); //test to see if getting data
 
