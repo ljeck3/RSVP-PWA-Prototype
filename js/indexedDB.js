@@ -78,38 +78,6 @@ export async function getRSVPoff() {
   const rsvps = await store.getAll();
 
   await tx.done;
-
-  const rsvpList = document.getElementById("rsvp-list");
-  rsvpList.innerHTML = ""; // Clears previous items
-
-  rsvps.forEach(rsvp => {
-  
-      const li = document.createElement("li");
-      li.textContent = `${rsvp.nameInput} & ${rsvp.guestInput}`;
-      
-      //delete button
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "delete";
-      //update button
-      const updateButton = document.createElement("button")
-      updateButton.textContent = "edit"
-      
-      deleteButton.addEventListener("click", async () => {
-        //await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
-        await deleteRSVPoff(rsvp.id);//Runs function in indexedDB.js to delete from Indexeddb (fixed this 11/19).
-        li.remove();
-        deleteButton.remove();
-      })
-  
-      updateButton.addEventListener("click", async () => {
-        await updateInput(rsvp.id); //triggers update functionality 
-      })
-      
-      li.appendChild(updateButton); //Puts button inside li
-      li.appendChild(deleteButton); //Puts button inside li
-      rsvpList.appendChild(li); //buttons now inside li, which goes into ul.
-      
-    });
 }
 
 async function checkStorageUsage() {
