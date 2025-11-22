@@ -48,7 +48,7 @@ export async function addRSVPoff(rsvp) {
 
     //update storage usage
     checkStorageUsage();
-    console.log("rsvp added");
+    console.log("rsvp added to IndexedDB");
   }
 
 //Delete RSVP (fixed this 11/19)

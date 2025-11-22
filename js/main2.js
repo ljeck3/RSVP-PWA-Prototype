@@ -18,6 +18,13 @@ getRSVPData() //Loads the initial RSVPs before changes are made
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.sidenav');
   var instances = M.Sidenav.init(elems);
+
+// Add RSVP button listener
+  const rsvpButton = document.getElementById("rsvpButton");
+  if (rsvpButton) {
+    rsvpButton.addEventListener("click", rsvpYes);
+  }
+
 });
 
 if ("serviceWorker" in navigator) {
