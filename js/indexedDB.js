@@ -66,7 +66,7 @@ export async function deleteRSVPoff(id) {
     console.log("Deleted rsvp from IndexedDB");
 }
 
-//Load RSVPs withe transaction
+//Load RSVPs with transaction
 export async function getRSVPoff() {
   const db = await createDB()
 
@@ -111,9 +111,6 @@ export async function getRSVPoff() {
       
     });
 }
-
-// display, load synctasks
-
 
 async function checkStorageUsage() {
   if (navigator.storage && navigator.storage.estimate) {

@@ -1,3 +1,5 @@
+//TODO: Sync function
+
 //takes functions from firebaseDB.js to be used here. 
 import {
   addRSVP,
@@ -6,6 +8,7 @@ import {
   updateRSVP
 } from "./firebaseDB.js"
 
+//takes functions from IndexedDB.js to be used here. 
 import {
   addRSVPoff,
   getRSVPoff,
@@ -15,22 +18,21 @@ import {
 
 //Internet Check
 if (navigator.onLine) {
-  bigChungus(); // load Firebase
+  bigChungus(); //Firebase
 } else {
-  johnPork();   // load IndexedDB
+  johnPork();   //IndexedDB
 }
 
-//For Materialize CSS nav bar
 document.addEventListener('DOMContentLoaded', function() {
+  //For Materialize CSS nav bar
   var elems = document.querySelectorAll('.sidenav');
   var instances = M.Sidenav.init(elems);
 
 // Add RSVP button listener
   const rsvpButton = document.getElementById("rsvpButton");
   if (rsvpButton) {
-    rsvpButton.addEventListener("click", rsvpYes);
+    rsvpButton.addEventListener("click", fazbearEntertainment);
   }
-
 });
 
 if ("serviceWorker" in navigator) {
@@ -55,11 +57,13 @@ async function updateInput(id) {
   console.log(nameUpdate)
   console.log(guestUpdate)
   await updateRSVP(id, updateData); 
-  bigChungus() //Reloads the RSVP list from Firebase
-  johnPork() //reloads the RSVP list from IndexedDB
+
+  //Reloads the RSVP list from Firebase
+  bigChungus() //Firebase
+  johnPork() //IndexedDB
 }
 
-async function rsvpYes() {
+async function fazbearEntertainment() {
     const nameInput = document.getElementById("nameInput").value;
     const guestInput = document.getElementById("guestInput").value;
 
@@ -72,7 +76,7 @@ async function rsvpYes() {
     const savedRSVP = await addRSVP(rsvpData);
 
 
-    // Stores Firebase ID for IndexedDB
+  // Stores Firebase ID for IndexedDB
   const offlineRSVP = {
     id: savedRSVP.id,
     nameInput: nameInput,
@@ -82,8 +86,9 @@ async function rsvpYes() {
   // Save to IndexedDB 
   await addRSVPoff(offlineRSVP);
 
-    bigChungus() //Reloads the RSVP list so page does not have to be refreshed
-    johnPork()
+    //Reloads the RSVP list so page does not have to be refreshed
+    bigChungus(); //Firebase
+    johnPork(); //IndexedDB
 }
 
 async function johnPork() { //This runs a function in another file to handle loading from indexeddb
@@ -130,4 +135,4 @@ async function bigChungus() {
   });
 }
 
-window.rsvpYes = rsvpYes //Makes this function global so that it can run in html inline.
+window.fazbearEntertainment = fazbearEntertainment //Makes this function global so that it can run in html inline.
