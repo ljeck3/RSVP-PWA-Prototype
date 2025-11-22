@@ -76,8 +76,8 @@ export async function getRSVPoff() {
 
 //get all rsvps
   const rsvps = await store.getAll();
-
-  await tx.done;
+  return rsvps;
+  //await tx.done;
 }
 
 async function checkStorageUsage() {
