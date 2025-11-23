@@ -80,6 +80,15 @@ export async function getRSVPoff() {
   //await tx.done;
 }
 
+//Edit RSVP
+export async function updateRSVPoff(id, updateData) {
+  const db = await createDB()
+  const tx = db.transaction("rsvps", "readwrite");
+  const store = tx.objectStore("rsvps");
+  await store.put({id, ...updateData});
+  await tx.done;
+}
+
 async function checkStorageUsage() {
   if (navigator.storage && navigator.storage.estimate) {
     const { usage, quota } = await navigator.storage.estimate();

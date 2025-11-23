@@ -12,16 +12,21 @@ import {
 import {
   addRSVPoff,
   getRSVPoff,
-  deleteRSVPoff
+  deleteRSVPoff,
+  updateRSVPoff
 }
   from "./indexedDB.js";
 
 //Internet Check
-if (navigator.onLine) {
-  johnnyCash(); //Firebase
-} else {
-  billyJoel();   //IndexedDB
+function ihatepayingmyenergybill(){
+  if (navigator.onLine) {
+    johnnyCash(); //Firebase
+  } else {
+    billyJoel();   //IndexedDB
+  }
 }
+//Initial load with Firebase or IndexedDB
+ihatepayingmyenergybill()
 
 document.addEventListener('DOMContentLoaded', function() {
   //For Materialize CSS nav bar
@@ -45,24 +50,7 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-async function updateInput(id) {
-  let nameUpdate = prompt("Edit Name");
-  let guestUpdate = prompt("Edit Guest");
-
-  const updateData = {
-      nameInput: nameUpdate,
-      guestInput: guestUpdate,
-    }
-
-  console.log(nameUpdate)
-  console.log(guestUpdate)
-  await updateRSVP(id, updateData); 
-
-  //Reloads the RSVP list from Firebase
-  johnnyCash() //Firebase
-  billyJoel() //IndexedDB
-}
-
+//When users clicks RSVP button
 async function rsvpYes() {
     const nameInput = document.getElementById("nameInput").value;
     const guestInput = document.getElementById("guestInput").value;
@@ -94,13 +82,33 @@ async function rsvpYes() {
   // Save to IndexedDB 
   await addRSVPoff(offlineRSVP);
 
-    //Internet Check
+    //Internet check -> Reload with Firebase or IndexedDB
+    ihatepayingmyenergybill();
+    }
+
+//Edit RSVP
+async function updateInput(id) {
+  //console.log(id); //Check ID
+  let nameUpdate = prompt("Edit Name");
+  let guestUpdate = prompt("Edit Guest");
+
+  const updateData = {
+      nameInput: nameUpdate,
+      guestInput: guestUpdate,
+    }
+
+  try {
     if (navigator.onLine) {
-      johnnyCash(); //Firebase
+      await updateRSVP(id, updateData);
+      await updateRSVPoff(id, updateData);
     } else {
-      billyJoel();   //IndexedDB
-    }
-    }
+      await updateRSVPoff(id, updateData);
+      }
+  } catch (err) {
+    console.error("Error updating RSVP:", err);
+  }
+  ihatepayingmyenergybill();
+}
 
 
 //TODO: There are repeated parts in billyJoel() and johnnyCash(). Need to consolidate. 
