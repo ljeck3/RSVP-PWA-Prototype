@@ -3,16 +3,18 @@
 
 ## Description
 
-This web app is intended to behave like a PWA, meaning it can cache and be installed. The function of the app is to RSVP to events that are listed. Firebase stores the user's response. More will be added to this description. 
+This web app is built to demonstrate the features of a Progressive Web Application. A PWA can cache and store data to be used offline, as well as be installed to the home screen of the user's device. This project in particular is an RSVP app. Users can add their name, along with a guest, for a listed event. 
+RSVPs are stored in two ways: Firebase when online, and IndexedDB when offline. RSVP-ing creates a database entry. When offline, RSVPs will be stored in IndexedDB, but will sync with Firebase when back online. The app can then read the data, as demonstrated by the "See who's going" section. There is also the ability to edit and delete an entry with the provided buttons. 
 
 ## Getting Started
 
 ### Viewing the prototype
-You can view this prototype by following this link, which is the repositotry hosted through GitHub Pages: https://ljeck3.github.io/RSVP-PWA-Prototype/. You can also download the repository, and open index.html. 
+Download the repository, and open index.html. When the dev branch is merged into the main branch, it can be viewed through GitHub Pages: https://ljeck3.github.io/RSVP-PWA-Prototype/.
 
 ### Using the app
 1. Navigate to the event. In this case, there is only 1 event called "Party."
 2. Fill out the form to "RSVP"
+3. Use the buttons next to an entry to edit or delete. 
 
 ## Authors
 

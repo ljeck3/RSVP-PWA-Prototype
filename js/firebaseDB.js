@@ -58,6 +58,7 @@ export async function deleteRSVP(id) {
      {
         console.error("error deleting rsvps: ", error);
     }
+    console.log("Deleted rsvp from Firebase");
 }
 
 //Update

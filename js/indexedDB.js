@@ -1,6 +1,6 @@
 import { openDB } from "https://unpkg.com/idb?module";
 
-
+//not in use
 //takes functions from firebaseDB.js to be used here. 
 import {
   addRSVP,

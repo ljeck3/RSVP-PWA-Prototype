@@ -18,9 +18,9 @@ import {
 
 //Internet Check
 if (navigator.onLine) {
-  bigChungus(); //Firebase
+  johnnyCash(); //Firebase
 } else {
-  johnPork();   //IndexedDB
+  billyJoel();   //IndexedDB
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Add RSVP button listener
   const rsvpButton = document.getElementById("rsvpButton");
   if (rsvpButton) {
-    rsvpButton.addEventListener("click", fazbearEntertainment);
+    rsvpButton.addEventListener("click", rsvpYes);
   }
 });
 
@@ -59,22 +59,30 @@ async function updateInput(id) {
   await updateRSVP(id, updateData); 
 
   //Reloads the RSVP list from Firebase
-  bigChungus() //Firebase
-  johnPork() //IndexedDB
+  johnnyCash() //Firebase
+  billyJoel() //IndexedDB
 }
 
-async function fazbearEntertainment() {
+async function rsvpYes() {
     const nameInput = document.getElementById("nameInput").value;
     const guestInput = document.getElementById("guestInput").value;
 
     const rsvpData = {
       nameInput: nameInput,
       guestInput: guestInput,
+    };
+
+    let savedRSVP;
+    if (navigator.onLine) {
+      savedRSVP = await addRSVP(rsvpData);
+      console.log(savedRSVP)
+    } else {
+      console.log("No internet. RSVP not added to Firebase.");
+      savedRSVP = {
+        id: `temp-${Date.now()}`, ...rsvpData
+      };
+      console.log(savedRSVP);
     }
-
-    console.log(rsvpData)
-    const savedRSVP = await addRSVP(rsvpData);
-
 
   // Stores Firebase ID for IndexedDB
   const offlineRSVP = {
@@ -86,19 +94,21 @@ async function fazbearEntertainment() {
   // Save to IndexedDB 
   await addRSVPoff(offlineRSVP);
 
-    //Reloads the RSVP list so page does not have to be refreshed
-    bigChungus(); //Firebase
-    johnPork(); //IndexedDB
-}
+    //Internet Check
+    if (navigator.onLine) {
+      johnnyCash(); //Firebase
+    } else {
+      billyJoel();   //IndexedDB
+    }
+    }
 
 
-//TODO: There are repeated parts in johnPork() and bigChungus(). Need to consolidate. 
-
+//TODO: There are repeated parts in billyJoel() and johnnyCash(). Need to consolidate. 
 
 
 // Load RSVPs from IndexedDB and Display in UI
-async function johnPork() {
-  console.log("Internet connection unsuccessful. Calling John Pork.")
+async function billyJoel() {
+  console.log("Internet connection unsuccessful. We didn't start the fire.")
   const rsvps = await getRSVPoff();
   console.log(rsvps); //test to see if getting data
 
@@ -136,8 +146,8 @@ async function johnPork() {
 }
 
 // Load RSVPs from Firebase and Display in UI
-async function bigChungus() {
-  console.log("Internet connection successful. Loading Big Chungus for the PS4.")
+async function johnnyCash() {
+  console.log("Internet connection successful. I fell into a burning ring of fire.")
   const rsvps = await getRSVP();
   console.log(rsvps); //test to see if getting data
 
@@ -174,4 +184,4 @@ async function bigChungus() {
   });
 }
 
-window.fazbearEntertainment = fazbearEntertainment //Makes this function global so that it can run in html inline.
+window.rsvpYes = rsvpYes //Makes this function global so that it can run in html inline.
