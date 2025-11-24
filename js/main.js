@@ -83,6 +83,7 @@ async function rsvpYes() {
         // Save to IndexedDB 
       await addRSVPoff(savedRSVP);
       console.log(savedRSVP);
+      alert("RSVP saved locaclly. Your RSVP will sync once internet connection is restored.")
     }
 
   // Stores Firebase ID for IndexedDB
@@ -109,15 +110,15 @@ async function syncRSVPs() {
     if (!rsvp.synced && isOnline()) {
       try {
         const RSVPToSync = {
-        id: rsvp.id,
+        //id: rsvp.id,
         nameInput: rsvp.nameInput,
         guestInput: rsvp.guestInput,
         synced: true
         };
       const savedRSVP = await addRSVP(RSVPToSync);
       const txUpdate = db.transaction("rsvps", "readwrite");
-      const storeUpdate = txUpdate.objectStore("rsvsp");
-      await storeUpdate.delete(task.id);
+      const storeUpdate = txUpdate.objectStore("rsvps");
+      await storeUpdate.delete(rsvp.id);
       await storeUpdate.put({ ...rsvp, id: savedRSVP.id, synced: true });
       await txUpdate.done;
       console.log("synced");
@@ -178,7 +179,7 @@ async function billyJoel() {
       updateButton.textContent = "edit"
       
       deleteButton.addEventListener("click", async () => {
-        //await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
+        await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
         await deleteRSVPoff(rsvp.id);//Runs function in indexedDB.js to delete from Indexeddb (fixed this 11/19).
         li.remove();
         deleteButton.remove();
