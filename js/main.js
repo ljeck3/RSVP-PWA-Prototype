@@ -1,5 +1,7 @@
 //TODO: Sync function
 
+import { openDB } from "https://unpkg.com/idb?module";
+
 //takes functions from firebaseDB.js to be used here. 
 import {
   addRSVP,
@@ -13,7 +15,8 @@ import {
   addRSVPoff,
   getRSVPoff,
   deleteRSVPoff,
-  updateRSVPoff
+  updateRSVPoff,
+  createDB
 }
   from "./indexedDB.js";
 
@@ -25,8 +28,13 @@ function ihatepayingmyenergybill(){
     billyJoel();   //IndexedDB
   }
 }
+
+function isOnline() {
+  return navigator.onLine;
+}
+
 //Initial load with Firebase or IndexedDB
-ihatepayingmyenergybill()
+
 
 document.addEventListener('DOMContentLoaded', function() {
   //For Materialize CSS nav bar
@@ -38,6 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
   if (rsvpButton) {
     rsvpButton.addEventListener("click", rsvpYes);
   }
+  
+  syncRSVPs();
+  ihatepayingmyenergybill()
 });
 
 if ("serviceWorker" in navigator) {
@@ -67,24 +78,55 @@ async function rsvpYes() {
     } else {
       console.log("No internet. RSVP not added to Firebase.");
       savedRSVP = {
-        id: `temp-${Date.now()}`, ...rsvpData
+        id: `temp-${Date.now()}`, ...rsvpData, synced: false
       };
+        // Save to IndexedDB 
+      await addRSVPoff(savedRSVP);
       console.log(savedRSVP);
     }
 
   // Stores Firebase ID for IndexedDB
-  const offlineRSVP = {
-    id: savedRSVP.id,
-    nameInput: nameInput,
-    guestInput: guestInput,
-  };
-
-  // Save to IndexedDB 
-  await addRSVPoff(offlineRSVP);
+  //const offlineRSVP = {
+    //id: savedRSVP.id,
+    //nameInput: nameInput,
+    //guestInput: guestInput,
+  //};
 
     //Internet check -> Reload with Firebase or IndexedDB
     ihatepayingmyenergybill();
     }
+
+//Sync unsynced RSVPs from IndexedDB to Firebase
+async function syncRSVPs() {
+  console.log("Running sync...")
+  const db = await createDB();
+  const tx = db.transaction("rsvps", "readonly");
+  const store = tx.objectStore("rsvps");
+  const rsvps = await store.getAll();
+  await tx.done;
+
+  for (const rsvp of rsvps) {
+    if (!rsvp.synced && isOnline()) {
+      try {
+        const RSVPToSync = {
+        id: rsvp.id,
+        nameInput: rsvp.nameInput,
+        guestInput: rsvp.guestInput,
+        synced: true
+        };
+      const savedRSVP = await addRSVP(RSVPToSync);
+      const txUpdate = db.transaction("rsvps", "readwrite");
+      const storeUpdate = txUpdate.objectStore("rsvsp");
+      await storeUpdate.delete(task.id);
+      await storeUpdate.put({ ...rsvp, id: savedRSVP.id, synced: true });
+      await txUpdate.done;
+      console.log("synced");
+     }catch (error) {
+      console.error("Error syncing rsvps", error);
+     }
+    }
+  }
+}
 
 //Edit RSVP
 async function updateInput(id) {
@@ -100,7 +142,7 @@ async function updateInput(id) {
   try {
     if (navigator.onLine) {
       await updateRSVP(id, updateData);
-      await updateRSVPoff(id, updateData);
+      //await updateRSVPoff(id, updateData);
     } else {
       await updateRSVPoff(id, updateData);
       }

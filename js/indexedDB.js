@@ -20,12 +20,12 @@ if ("serviceWorker" in navigator) {
 }
 
 // create indexDB databse
-async function createDB() {
+export async function createDB() {
     const db = await openDB("rsvp-app", 1, {
         upgrade(db) {
             db.createObjectStore("rsvps", { keyPath: "id" }); //Got rid of auto increment so that Firebase ID matches IndexedDB ID
 
-            store.createIndex("status", "status");
+            //store.createIndex("status", "status");
             store.createIndex("synced", "synced");
         },
     });
@@ -85,7 +85,7 @@ export async function updateRSVPoff(id, updateData) {
   const db = await createDB()
   const tx = db.transaction("rsvps", "readwrite");
   const store = tx.objectStore("rsvps");
-  await store.put({id, ...updateData});
+  await store.put({id, ...updateData, synced: false});
   await tx.done;
 }
 
