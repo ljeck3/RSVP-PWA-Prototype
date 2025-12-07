@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
   from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -16,13 +16,24 @@ const firebaseConfig = {
   const auth = getAuth(app);
 
 
-//Register-------------------------
-document.getElementById("registerButton").addEventListener("click", registerUser);
+// Register button
+const registerBtn = document.getElementById("registerButton");
+if (registerBtn) {
+  registerBtn.addEventListener("click", registerUser);
+}
 
+// Login button
+const loginBtn = document.getElementById("loginButton");
+if (loginBtn) {
+  loginBtn.addEventListener("click", loginUser);
+}
+
+
+//Register-------------------------
 function registerUser() {
 
-  const email = document.getElementById("user-email").value;
-  const password = document.getElementById("user-password").value;
+  const email = document.getElementById("register-email").value;
+  const password = document.getElementById("register-password").value;
 
   console.log(email, password);
 
@@ -39,8 +50,29 @@ function registerUser() {
       if (error.code === "auth/weak-password") {
         alert("Password must be at least 6 characters.");
       } else {
-        alert(err.message);
+        alert(error.message);
       }
     });
 }
-//------------------------------------------
+//Login-------------------------
+function loginUser() {
+
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  console.log(email, password);
+
+  const auth = getAuth();
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      alert(`Welcome ${email}`)
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+}
+//-------------------------
