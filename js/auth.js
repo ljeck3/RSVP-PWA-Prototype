@@ -1,3 +1,4 @@
+//Initilize---------------------------------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
   from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
@@ -14,7 +15,7 @@ const firebaseConfig = {
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
+//------------------------------------------
 
 // Register button
 const registerBtn = document.getElementById("registerButton");
