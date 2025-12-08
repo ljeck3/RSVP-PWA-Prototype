@@ -82,6 +82,9 @@ function currentUser() {
     // https://firebase.google.com/docs/reference/js/auth.user
     const uid = user.uid;
     //alert(user.email);
+    document.getElementById("home-links").style.display = "none";
+
+
     parentElement.textContent = `Welcome, ${user.email}`; //Displays logged in user
 
     const allowLogout = document.createElement("button"); //Creates logout button
