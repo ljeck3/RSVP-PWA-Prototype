@@ -200,10 +200,12 @@ async function billyJoel() {
       
       //delete button
       const deleteButton = document.createElement("button");
-      deleteButton.textContent = "delete";
+      deleteButton.classList.add("btn", "red", "waves-effect", "waves-light");
+      deleteButton.innerHTML = '<i class="material-icons">delete</i>';
       //update button
       const updateButton = document.createElement("button")
-      updateButton.textContent = "edit"
+      updateButton.classList.add("btn", "light-blue", "lighten-1", "waves-effect", "waves-light");
+      updateButton.innerHTML = '<i class="material-icons">create</i>';
       
       deleteButton.addEventListener("click", async () => {
         //await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
@@ -251,10 +253,12 @@ async function johnnyCash() {
     
     //delete button
     const deleteButton = document.createElement("button");
-    deleteButton.textContent = "delete";
+    deleteButton.classList.add("btn", "red", "waves-effect", "waves-light");
+    deleteButton.innerHTML = '<i class="material-icons">delete</i>';
     //update button
     const updateButton = document.createElement("button")
-    updateButton.textContent = "edit"
+    updateButton.classList.add("btn", "light-blue", "lighten-1", "waves-effect", "waves-light");
+    updateButton.innerHTML = '<i class="material-icons">create</i>';
     
     deleteButton.addEventListener("click", async () => {
       await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
