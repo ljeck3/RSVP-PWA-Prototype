@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
   from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -28,19 +28,17 @@ if (loginBtn) {
   loginBtn.addEventListener("click", loginUser);
 }
 
-
 //Register-------------------------
 function registerUser() {
 
   const email = document.getElementById("register-email").value;
   const password = document.getElementById("register-password").value;
 
-  console.log(email, password);
-
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
+      window.location.replace("../index.html");
       // ...
     })
     .catch((error) => {
@@ -67,12 +65,53 @@ function loginUser() {
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      alert(`Welcome ${email}`)
-      // ...
+      window.location.replace("../index.html");
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
     });
 }
-//-------------------------
+//Get signed-in user-------------------------
+function currentUser() {
+  onAuthStateChanged(auth, (user) => {
+     const parentElement = document.getElementById("user-container")
+
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/auth.user
+    const uid = user.uid;
+    //alert(user.email);
+    parentElement.textContent = `Welcome, ${user.email}`; //Displays logged in user
+
+    const allowLogout = document.createElement("button"); //Creates logout button
+    allowLogout.textContent = "Logout";
+    allowLogout.id ="logoutButton";
+    allowLogout.classList.add(
+      "waves-effect",
+      "waves-light",
+      "btn",
+      "red",
+      "darken-1"
+    );
+    allowLogout.addEventListener("click", goodbyeUser); //For signing out
+    parentElement.appendChild(allowLogout);
+  } else {
+    // User is signed out
+    // ...
+  }
+});
+
+}
+//Sign-out user-------------------------
+async function goodbyeUser() {
+  signOut(auth).then(() => {
+    alert("byyyeee");
+  // Sign-out successful.
+}).catch((error) => {
+  // An error happened.
+});
+await location.reload();
+}
+
+currentUser(); //gets current user when page is loaded
