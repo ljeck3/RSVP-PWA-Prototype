@@ -81,17 +81,23 @@ if ("serviceWorker" in navigator) {
 async function rsvpYes() {
     const nameInput = document.getElementById("nameInput").value;
     const guestInput = document.getElementById("guestInput").value;
+    let user;
 
-    const user = auth.currentUser;
+    if (navigator.onLine) {
+      user = auth.currentUser.uid;
+    } else {
+      user = "OFFLINE PLACDEHOLDER";
+    }
+    
 
-    if (!user) {
+    /* if (!user) {
       alert("You must be logged in to RSVP.");
       await window.location.replace("../index.html");
       return;
-    }
+    } */
 
     const rsvpData = {
-      userID: user.uid,
+      userID: user,
       nameInput: nameInput,
       guestInput: guestInput,
     };
@@ -110,13 +116,6 @@ async function rsvpYes() {
       console.log(savedRSVP);
       alert("RSVP saved locaclly. Your RSVP will sync once internet connection is restored.")
     }
-
-  // Stores Firebase ID for IndexedDB
-  //const offlineRSVP = {
-    //id: savedRSVP.id,
-    //nameInput: nameInput,
-    //guestInput: guestInput,
-  //};
 
     //Internet check -> Reload with Firebase or IndexedDB
     ihatepayingmyenergybill();
@@ -230,7 +229,14 @@ async function johnnyCash() {
   const rsvpList = document.getElementById("rsvp-list");
   rsvpList.innerHTML = ""; // Clears previous items
 
+  const user = auth.currentUser;
+
   rsvps.forEach(rsvp => {
+
+    //This line helps filter only rsvps created by the logged in user
+    if (rsvp.userID !== user.uid) {
+      return;
+    }
 
     const li = document.createElement("li");
     li.textContent = `${rsvp.nameInput} & ${rsvp.guestInput}`;
