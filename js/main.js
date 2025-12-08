@@ -82,11 +82,14 @@ async function rsvpYes() {
     const nameInput = document.getElementById("nameInput").value;
     const guestInput = document.getElementById("guestInput").value;
     let user;
-
-    if (navigator.onLine) {
-      user = auth.currentUser.uid;
-    } else {
-      user = "OFFLINE PLACDEHOLDER";
+    try {
+      if (navigator.onLine) {
+        user = auth.currentUser.uid;
+      } else {
+        user = "OFFLINE PLACDEHOLDER";
+      }
+    } catch (error) {
+      console.log(error);
     }
     
 
@@ -203,7 +206,7 @@ async function billyJoel() {
       updateButton.textContent = "edit"
       
       deleteButton.addEventListener("click", async () => {
-        await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
+        //await deleteRSVP(rsvp.id); //Runs function in firebaseDB.js to delete from Firebase.
         await deleteRSVPoff(rsvp.id);//Runs function in indexedDB.js to delete from Indexeddb (fixed this 11/19).
         li.remove();
         deleteButton.remove();
@@ -233,9 +236,14 @@ async function johnnyCash() {
 
   rsvps.forEach(rsvp => {
 
+
     //This line helps filter only rsvps created by the logged in user
-    if (rsvp.userID !== user.uid) {
-      return;
+    try {
+      if (rsvp.userID !== user.uid) {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
     }
 
     const li = document.createElement("li");
