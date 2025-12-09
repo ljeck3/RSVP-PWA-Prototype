@@ -22,7 +22,7 @@ When Offline:
 1. Navigate to the event. In this case, there is only 1 event called "Party."
 2. Fill out the form to "RSVP"
 3. Use the buttons next to an entry to edit or delete. 
-4. When internet is restored, the RSVP will be synced to the account that is signed in to.
+4. When internet is restored, the RSVP will be synced to the account that is signed in to. Reload page to make login buttons reappear again. 
 
 ## Authors
 

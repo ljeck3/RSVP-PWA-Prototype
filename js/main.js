@@ -42,6 +42,8 @@ function ihatepayingmyenergybill(){
     johnnyCash(); //Firebase
   } else {
     billyJoel();   //IndexedDB
+    document.getElementById("home-links").style.display = "none";
+
   }
 }
 

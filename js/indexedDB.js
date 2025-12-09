@@ -23,7 +23,8 @@ if ("serviceWorker" in navigator) {
 export async function createDB() {
     const db = await openDB("rsvp-app", 1, {
         upgrade(db) {
-            db.createObjectStore("rsvps", { keyPath: "id" }); //Got rid of auto increment so that Firebase ID matches IndexedDB ID
+            // Assign the created object store to a variable 'store'
+            const store = db.createObjectStore("rsvps", { keyPath: "id" }); //Got rid of auto increment so that Firebase ID matches IndexedDB ID
 
             //store.createIndex("status", "status");
             store.createIndex("synced", "synced");
@@ -31,6 +32,7 @@ export async function createDB() {
     });
     return db;
 }
+
 
 //Add RSVP
 export async function addRSVPoff(rsvp) {
