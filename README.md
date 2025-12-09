@@ -9,7 +9,7 @@ RSVPs are stored in two ways: Firebase when online, and IndexedDB when offline. 
 ## Getting Started
 
 ### Viewing the prototype
-Download the repository, open the respository in VS Code, and view using Live Server. When the dev branch is merged into the main branch, it can be viewed through GitHub Pages: https://ljeck3.github.io/RSVP-PWA-Prototype/.
+Download the repository, open the respository in VS Code, and view using Live Server.
 
 ### Using the app
 When online:
