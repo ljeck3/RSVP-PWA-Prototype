@@ -39,7 +39,7 @@ function registerUser() {
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
-      window.location.replace("../index.html");
+      window.location.replace("/index.html");
       // ...
     })
     .catch((error) => {
@@ -68,7 +68,7 @@ function loginUser() {
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      window.location.replace("../index.html");
+      window.location.replace("/index.html");
     })
     .catch((error) => {
       const errorCode = error.code;
