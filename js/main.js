@@ -103,11 +103,11 @@ async function rsvpYes() {
     }
     
 
-    /* if (!user) {
+    if (navigator.onLine && !auth.currentUser) {
       alert("You must be logged in to RSVP.");
       await window.location.replace("../index.html");
       return;
-    } */
+    }
 
     const rsvpData = {
       userID: user,
@@ -247,6 +247,12 @@ async function billyJoel() {
 // Load RSVPs from Firebase and Display in UI
 async function johnnyCash() {
   console.log("Internet connection successful. I fell into a burning ring of fire.")
+
+  if (navigator.onLine && !auth.currentUser) {
+      document.getElementById("rsvp-list").style.display = "none";
+      return;
+    }
+    
   const rsvps = await getRSVP();
   console.log(rsvps); //test to see if getting data
 
