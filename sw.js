@@ -1,16 +1,20 @@
-const CACHE_NAME ="rsvp-v1";
+const CACHE_NAME = "rsvp-v1";
+
+const REPO = "RSVP-PWA-Prototype"; 
+const IS_GITHUB_PAGES = location.hostname.endsWith("github.io");
+const BASE = IS_GITHUB_PAGES ? `/${REPO}` : "";
 
 const ASSETS_TO_CACHE = [
-  "./",
-  "./images",
-  "./css",
-  "./js",
-  "./index.html",
-  "./party.html",
-  "./main.js",
-  "./materialize.js",
-  "./materialize.min.js",
-
+  `${BASE}/`,
+  `${BASE}/index.html`,
+  `${BASE}/party.html`,
+  `${BASE}/main.js`,
+  `${BASE}/materialize.js`,
+  `${BASE}/materialize.min.js`,
+  // Add actual assets below:
+  // `${BASE}/css/styles.css`,
+  // `${BASE}/images/logo.png`,
+  // etc...
 ];
 
 self.addEventListener("install", (event) => {
@@ -30,8 +34,8 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log("Service worker: Deleting old cache");
-            return cache.delete(cache);
+            console.log("Service worker: Deleting old cache", cache);
+            return caches.delete(cache);
           }
         })
       );
