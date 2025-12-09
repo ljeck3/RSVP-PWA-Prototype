@@ -48,8 +48,10 @@ function registerUser() {
       // ..
       if (error.code === "auth/weak-password") {
         alert("Password must be at least 6 characters.");
+      } else if (error.code === "auth/invalid-email") {
+        alert("Email must be in correct format.");
       } else {
-        alert(error.message);
+        console.log(error.message);
       }
     });
 }
@@ -71,6 +73,7 @@ function loginUser() {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      alert("Incorrect email or password.");
     });
 }
 //Get signed-in user-------------------------
@@ -110,7 +113,6 @@ function currentUser() {
 //Sign-out user-------------------------
 async function goodbyeUser() {
   signOut(auth).then(() => {
-    alert("byyyeee");
   // Sign-out successful.
 }).catch((error) => {
   // An error happened.
