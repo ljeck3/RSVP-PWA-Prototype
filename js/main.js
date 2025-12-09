@@ -62,9 +62,19 @@ document.addEventListener('DOMContentLoaded', function() {
   if (rsvpButton) {
     rsvpButton.addEventListener("click", rsvpYes);
   }
-  
-  syncRSVPs();
-  ihatepayingmyenergybill()
+
+  //syncRSVPs(); //migrated out of here
+  //ihatepayingmyenergybill() //migrated out of here
+});
+
+//This makes syncing only happen if a user is logged in
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    syncRSVPs();
+    ihatepayingmyenergybill();
+  } else {
+    ihatepayingmyenergybill();
+  }
 });
 
 if ("serviceWorker" in navigator) {
@@ -133,11 +143,20 @@ async function syncRSVPs() {
   const rsvps = await store.getAll();
   await tx.done;
 
+  const user = auth.currentUser;
+  console.log(user);
+
+  if (!user) {
+    console.log("No user logged in. Cannot sync RSVPs.");
+    return;
+  }
+
+
   for (const rsvp of rsvps) {
     if (!rsvp.synced && isOnline()) {
       try {
         const RSVPToSync = {
-        //id: rsvp.id,
+        userID: user.uid,
         nameInput: rsvp.nameInput,
         guestInput: rsvp.guestInput,
         synced: true
